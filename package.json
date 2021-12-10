@@ -5,5 +5,8 @@
   "devDependencies": {
     "adm-zip": "latest",
     "yargs": "latest"
-  }
+  },
+  "bin": {
+    "build-for-browser": "index.js"
+  },
 }
