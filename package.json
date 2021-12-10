@@ -8,5 +8,5 @@
   },
   "bin": {
     "build-for-browser": "index.js"
-  },
+  }
 }
