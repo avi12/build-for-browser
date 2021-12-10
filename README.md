@@ -1,1 +1,1 @@
-# build-for-browser
+A simple build script used by my [browser extensions](https://avi12.com) as long as some browsers still don't support [Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/mv3-overview).
