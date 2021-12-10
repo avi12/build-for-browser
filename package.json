@@ -1,3 +1,9 @@
 {
-  
+  "name": "build-for-browser",
+  "version": "0.0.1",
+  "main": "index.js",
+  "devDependencies": {
+    "adm-zip": "latest",
+    "yargs": "latest"
+  }
 }
