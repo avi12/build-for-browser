@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+"use strict";
+
 const fs = require("fs");
 const AdmZip = require("adm-zip");
 const yargs = require("yargs");
