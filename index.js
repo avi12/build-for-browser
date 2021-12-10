@@ -26,7 +26,7 @@ function getModifiedManifest(manifest) {
   return manifest;
 }
 
-function rebuildZipForFirefox(zipName, version) {
+function rebuildZipForBrowser(zipName, version) {
   const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, "manifest.json"));
 
@@ -34,7 +34,7 @@ function rebuildZipForFirefox(zipName, version) {
   zip.writeZip(argv.i.replace("{version}", `${version}__adapted_for_${argv.browser}`));
 }
 
-function rebuildZipSourceForFirefox(zipName, version) {
+function rebuildZipSourceForBrowser(zipName, version) {
   const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, "dist/manifest.json"));
 
@@ -48,8 +48,8 @@ function init() {
   );
   const name = argv.i;
 
-  rebuildZipForFirefox(name.replace("{version}", version), version);
-  rebuildZipSourceForFirefox(name.replace("{version}", version + "-source"), version);
+  rebuildZipForBrowser(name.replace("{version}", version), version);
+  rebuildZipSourceForBrowser(name.replace("{version}", version + "-source"), version);
 }
 
 init();
