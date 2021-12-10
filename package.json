@@ -6,6 +6,7 @@
     "adm-zip": "latest",
     "yargs": "latest"
   },
+  "license": "MIT",
   "bin": {
     "build-for-browser": "index.js"
   }
