@@ -24,11 +24,28 @@ function getManifest(zip, entry) {
 
 function getModifiedManifest(manifest) {
   manifest.manifest_version = 2;
-  manifest.browser_action = { ...manifest.action };
-  manifest.background = {
-    scripts: [manifest.background.service_worker]
-  };
+  if (manifest.browser_action) {
+    manifest.browser_action = { ...manifest.action };
+  }
+
+  if (manifest.background) {
+    manifest.background = {
+      scripts: [manifest.background.service_worker]
+    };
+  }
+
+  if (manifest.host_permissions) {
+    const host_permissions = [...manifest.host_permissions];
+    if (!manifest.permissions) {
+      manifest.permissions = host_permissions;
+    } else {
+      manifest.permissions.push(host_permissions);
+    }
+  }
+  
+
   delete manifest.action;
+  delete manifest.host_permissions;
   return manifest;
 }
 
