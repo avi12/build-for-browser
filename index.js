@@ -39,14 +39,13 @@ function getModifiedManifest(manifest) {
     if (!manifest.permissions) {
       manifest.permissions = host_permissions;
     } else {
-      manifest.permissions.push(host_permissions);
+      manifest.permissions.push(...host_permissions);
     }
   }
   
 
   delete manifest.action;
   delete manifest.host_permissions;
-  console.log(manifest)
   return manifest;
 }
 
