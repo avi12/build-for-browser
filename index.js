@@ -25,6 +25,9 @@ function getManifest(zip, entry) {
 function getModifiedManifest(manifest) {
   manifest.manifest_version = 2;
   manifest.browser_action = { ...manifest.action };
+  manifest.background = {
+    scripts: [manifest.background.service_worker]
+  };
   delete manifest.action;
   return manifest;
 }
