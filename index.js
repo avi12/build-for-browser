@@ -49,8 +49,17 @@ function getModifiedManifest(manifest) {
   return manifest;
 }
 
+function getZipName(zipName) {
+  const zipNameAdapted = zipName.replace(".zip", `__adapted_for_${argv.browser}.zip`)
+  if (fs.existsSync(zipNameAdapted)) {
+    return zipNameAdapted;
+  }
+
+  return zipName;
+}
+
 function rebuildZipForBrowser(zipName, version) {
-  const zip = new AdmZip(zipName);
+  const zip = new AdmZip(getZipName(zipName));
   const manifest = getModifiedManifest(getManifest(zip, "manifest.json"));
 
   zip.addFile("manifest.json", Buffer.from(JSON.stringify(manifest), "utf-8"));
@@ -58,6 +67,10 @@ function rebuildZipForBrowser(zipName, version) {
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
+  if (fs.existsSync(zipName)) {
+    return;
+  }
+
   const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, "dist/manifest.json"));
 
