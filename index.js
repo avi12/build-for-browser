@@ -25,16 +25,16 @@ function getManifest(zip, entry) {
 function getModifiedManifest(manifest) {
   manifest.manifest_version = 2;
   if (manifest.browser_action) {
-    manifest.browser_action = { ...manifest.action };
+    manifest.browser_action = { ...manifest?.action, ...manifest?.browser_action };
   }
 
-  console.log(manifest.background);
   if (manifest.background) {
     manifest.background = {
-      scripts: [manifest.background.service_worker],
+      scripts: [
+        manifest.background.service_worker || manifest.background.scripts[0],
+      ],
     };
   }
-  console.log(manifest.background);
 
   if (manifest.host_permissions) {
     const host_permissions = [...manifest.host_permissions];
@@ -47,7 +47,8 @@ function getModifiedManifest(manifest) {
 
   if (manifest.content_security_policy) {
     manifest.content_security_policy =
-      manifest.content_security_policy.extension_pages;
+      manifest.content_security_policy?.extension_pages ??
+      manifest.content_security_policy;
   }
 
   delete manifest.action;
