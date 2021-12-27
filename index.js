@@ -50,6 +50,7 @@ function getModifiedManifest(manifest) {
 
   delete manifest.action;
   delete manifest.host_permissions;
+  console.log(manifest);
   return manifest;
 }
 
