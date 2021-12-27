@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-"use strict";
+'use strict';
 
-const fs = require("fs");
-const AdmZip = require("adm-zip");
-const yargs = require("yargs");
+const fs = require('fs');
+const AdmZip = require('adm-zip');
+const yargs = require('yargs');
 
 const { argv } = yargs(process.argv.slice(2));
 
-const dirZip = "dist_packed";
+const dirZip = 'dist_packed';
 if (!fs.existsSync(dirZip)) {
   console.log(`No "${dirZip}" directory`);
   process.exit();
@@ -46,7 +46,6 @@ function getModifiedManifest(manifest) {
   if (manifest.content_security_policy) {
     manifest.content_security_policy = manifest.content_security_policy.extension_pages;
   }
-  
 
   delete manifest.action;
   delete manifest.host_permissions;
@@ -63,11 +62,18 @@ function getZipName(zipName) {
 }
 
 function rebuildZipForBrowser(zipName, version) {
-  const zip = new AdmZip(getZipName(zipName));
-  const manifest = getModifiedManifest(getManifest(zip, "manifest.json"));
+  let zip;
+  try {
+    zip = new AdmZip(getZipName(zipName));
+  } catch {
+    throw new Error(`${zipName} is in use!`);
+  }
+  const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
 
-  zip.addFile("manifest.json", Buffer.from(JSON.stringify(manifest), "utf-8"));
-  zip.writeZip(argv.i.replace("{version}", `${version}__adapted_for_${argv.browser}`));
+  zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
+  zip.writeZip(
+    argv.i.replace('{version}', `${version}__adapted_for_${argv.browser}`)
+  );
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
@@ -75,21 +81,36 @@ function rebuildZipSourceForBrowser(zipName, version) {
     return;
   }
 
-  const zip = new AdmZip(zipName);
-  const manifest = getModifiedManifest(getManifest(zip, "dist/manifest.json"));
+  try {
+    zip = new AdmZip(getZipName(zipName));
+  } catch {
+    throw new Error(`${zipName} is in use!`);
+  }
+  const manifest = getModifiedManifest(getManifest(zip, 'dist/manifest.json'));
 
-  zip.addFile("manifest.json", Buffer.from(JSON.stringify(manifest, null, 2), "utf-8"));
-  zip.writeZip(argv.i.replace("{version}", `${version}__adapted_for_${argv.browser}-source`));
+  zip.addFile(
+    'manifest.json',
+    Buffer.from(JSON.stringify(manifest, null, 2), 'utf-8')
+  );
+  zip.writeZip(
+    argv.i.replace(
+      '{version}',
+      `${version}__adapted_for_${argv.browser}-source`
+    )
+  );
 }
 
 function init() {
   const { version } = JSON.parse(
-    fs.readFileSync("package.json", { encoding: "utf-8" }).toString()
+    fs.readFileSync('package.json', { encoding: 'utf-8' }).toString()
   );
   const name = argv.i;
 
-  rebuildZipForBrowser(name.replace("{version}", version), version);
-  rebuildZipSourceForBrowser(name.replace("{version}", version + "-source"), version);
+  rebuildZipForBrowser(name.replace('{version}', version), version);
+  rebuildZipSourceForBrowser(
+    name.replace('{version}', version + '-source'),
+    version
+  );
 }
 
 init();
