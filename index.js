@@ -66,7 +66,8 @@ function rebuildZipForBrowser(zipName, version) {
   try {
     zip = new AdmZip(getZipName(zipName));
   } catch {
-    throw new Error(`${zipName} is in use!`);
+    console.error(`${zipName} is in use!`);
+    throw new Error();
   }
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
 
@@ -84,7 +85,8 @@ function rebuildZipSourceForBrowser(zipName, version) {
   try {
     zip = new AdmZip(getZipName(zipName));
   } catch {
-    throw new Error(`${zipName} is in use!`);
+    console.error(`${zipName} is in use!`);
+    throw new Error();
   }
   const manifest = getModifiedManifest(getManifest(zip, 'dist/manifest.json'));
 
