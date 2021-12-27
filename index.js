@@ -42,6 +42,10 @@ function getModifiedManifest(manifest) {
       manifest.permissions.push(...host_permissions);
     }
   }
+
+  if (manifest.content_security_policy) {
+    manifest.content_security_policy = manifest.content_security_policy.extension_pages;
+  }
   
 
   delete manifest.action;
