@@ -14,7 +14,7 @@ if (!fs.existsSync(dirZip)) {
 }
 
 if (!argv.browser) {
-  console.log("Specify either --browser=firefox or --browser=opera");
+  console.log('Specify either --browser=firefox or --browser=opera');
   process.exit();
 }
 
@@ -30,7 +30,7 @@ function getModifiedManifest(manifest) {
 
   if (manifest.background) {
     manifest.background = {
-      scripts: [manifest.background.service_worker]
+      scripts: [manifest.background.service_worker],
     };
   }
 
@@ -44,7 +44,8 @@ function getModifiedManifest(manifest) {
   }
 
   if (manifest.content_security_policy) {
-    manifest.content_security_policy = manifest.content_security_policy.extension_pages;
+    manifest.content_security_policy =
+      manifest.content_security_policy.extension_pages;
   }
 
   delete manifest.action;
@@ -53,7 +54,10 @@ function getModifiedManifest(manifest) {
 }
 
 function getZipName(zipName) {
-  const zipNameAdapted = zipName.replace(".zip", `__adapted_for_${argv.browser}.zip`)
+  const zipNameAdapted = zipName.replace(
+    '.zip',
+    `__adapted_for_${argv.browser}.zip`
+  );
   if (fs.existsSync(zipNameAdapted)) {
     return zipNameAdapted;
   }
@@ -62,13 +66,7 @@ function getZipName(zipName) {
 }
 
 function rebuildZipForBrowser(zipName, version) {
-  let zip;
-  try {
-    zip = new AdmZip(getZipName(zipName));
-  } catch {
-    console.error(`${zipName} is in use!`);
-    throw new Error();
-  }
+  const zip = new AdmZip(getZipName(zipName));
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
@@ -82,12 +80,7 @@ function rebuildZipSourceForBrowser(zipName, version) {
     return;
   }
 
-  try {
-    zip = new AdmZip(getZipName(zipName));
-  } catch {
-    console.error(`${zipName} is in use!`);
-    throw new Error();
-  }
+  const zip = new AdmZip(getZipName(zipName));
   const manifest = getModifiedManifest(getManifest(zip, 'dist/manifest.json'));
 
   zip.addFile(
