@@ -28,11 +28,13 @@ function getModifiedManifest(manifest) {
     manifest.browser_action = { ...manifest.action };
   }
 
+  console.log(manifest.background);
   if (manifest.background) {
     manifest.background = {
       scripts: [manifest.background.service_worker],
     };
   }
+  console.log(manifest.background);
 
   if (manifest.host_permissions) {
     const host_permissions = [...manifest.host_permissions];
@@ -50,7 +52,6 @@ function getModifiedManifest(manifest) {
 
   delete manifest.action;
   delete manifest.host_permissions;
-  console.log(manifest);
   return manifest;
 }
 
