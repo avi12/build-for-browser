@@ -79,10 +79,6 @@ function rebuildZipForBrowser(zipName, version) {
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
-  if (fs.existsSync(zipName)) {
-    return;
-  }
-
   const zip = new AdmZip(getZipName(zipName));
   const manifest = getModifiedManifest(getManifest(zip, 'dist/manifest.json'));
 
@@ -90,7 +86,6 @@ function rebuildZipSourceForBrowser(zipName, version) {
     'manifest.json',
     Buffer.from(JSON.stringify(manifest, null, 2), 'utf-8')
   );
-  console.log("Making source zip");
   zip.writeZip(
     argv.i.replace(
       '{version}',
