@@ -90,6 +90,7 @@ function rebuildZipSourceForBrowser(zipName, version) {
     'manifest.json',
     Buffer.from(JSON.stringify(manifest, null, 2), 'utf-8')
   );
+  console.log("Making source zip");
   zip.writeZip(
     argv.i.replace(
       '{version}',
@@ -106,7 +107,7 @@ function init() {
 
   rebuildZipForBrowser(name.replace('{version}', version), version);
   rebuildZipSourceForBrowser(
-    name.replace('{version}', version + '-source'),
+    name.replace('{version}', `${version}-source`),
     version
   );
 }
