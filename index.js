@@ -25,7 +25,10 @@ function getManifest(zip, entry) {
 function getModifiedManifest(manifest) {
   manifest.manifest_version = 2;
   if (manifest.browser_action) {
-    manifest.browser_action = { ...manifest?.action, ...manifest?.browser_action };
+    manifest.browser_action = {
+      ...manifest?.action,
+      ...manifest?.browser_action,
+    };
   }
 
   if (manifest.background) {
@@ -101,10 +104,12 @@ function init() {
   const name = argv.i;
 
   rebuildZipForBrowser(name.replace('{version}', version), version);
-  rebuildZipSourceForBrowser(
-    name.replace('{version}', `${version}-source`),
-    version
-  );
+  if (argv.source) {
+    rebuildZipSourceForBrowser(
+      name.replace('{version}', `${version}-source`),
+      version
+    );
+  }
 }
 
 init();
