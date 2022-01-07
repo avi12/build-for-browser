@@ -81,6 +81,7 @@ function rebuildZipForBrowser(zipName, version) {
 
   console.log(zipName);
   if (fs.existsSync(zipName)) {
+    console.log("Removing");
     fs.unlinkSync(zipName);
   }
 
@@ -118,10 +119,10 @@ function init() {
   );
   const name = argv.i;
 
-  rebuildZipForBrowser(name.replace('{version}', version), version);
+  rebuildZipForBrowser(name, version);
   if (argv.source) {
     rebuildZipSourceForBrowser(
-      name.replace('{version}', `${version}-source`),
+      name.replace('{version}', `{version}-source`),
       version
     );
   }
