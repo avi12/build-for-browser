@@ -79,9 +79,7 @@ function rebuildZipForBrowser(zipName, version) {
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
-  console.log(zipName);
   if (fs.existsSync(zipName)) {
-    console.log("Removing");
     fs.unlinkSync(zipName);
   }
 
@@ -119,10 +117,10 @@ function init() {
   );
   const name = argv.i;
 
-  rebuildZipForBrowser(name, version);
+  rebuildZipForBrowser(name.replace('{version}', version), version);
   if (argv.source) {
     rebuildZipSourceForBrowser(
-      name.replace('{version}', `{version}-source`),
+      name.replace('{version}', `${version}-source`),
       version
     );
   }
