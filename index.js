@@ -79,6 +79,7 @@ function rebuildZipForBrowser(zipName, version) {
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
+  console.log(zipName);
   if (fs.existsSync(zipName)) {
     fs.unlinkSync(zipName);
   }
