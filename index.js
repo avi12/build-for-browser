@@ -24,10 +24,10 @@ function getManifest(zip, entry) {
 
 function getModifiedManifest(manifest) {
   manifest.manifest_version = 2;
-  if (manifest.browser_action) {
+  if (manifest.action) {
     manifest.browser_action = {
-      ...manifest?.action,
-      ...manifest?.browser_action,
+      ...manifest.action,
+      ...manifest.browser_action,
     };
   }
 
