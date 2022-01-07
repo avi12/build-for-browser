@@ -75,9 +75,6 @@ function getZipName(zipName) {
 
 function rebuildZipForBrowser(zipName, version) {
   zipName = getZipName(zipName);
-  if (fs.existsSync(zipName)) {
-    fs.unlinkSync(zipName);
-  }
 
   const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
@@ -103,10 +100,6 @@ function rebuildZipSourceForBrowser(zipName, version) {
     'manifest.json',
     Buffer.from(JSON.stringify(manifest, null, 2), 'utf-8')
   );
-
-  if (fs.existsSync(zipName)) {
-    fs.unlinkSync(zipName);
-  }
 
   zip.writeZip(
     argv.i.replace(
