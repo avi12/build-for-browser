@@ -22,7 +22,8 @@ function getManifest(zip, entry) {
   return JSON.parse(zip.getEntry(entry).getData());
 }
 
-function getModifiedManifest(manifest) {
+function getModifiedManifest(manifestCurrent) {
+  const manifest = { ...manifestCurrent };
   manifest.manifest_version = 2;
   if (manifest.action) {
     manifest.browser_action = {
