@@ -54,6 +54,7 @@ function getModifiedManifest(manifest) {
       manifest.content_security_policy;
   }
 
+  delete manifest.offline_enabled;
   delete manifest.action;
   delete manifest.host_permissions;
   return manifest;
@@ -72,7 +73,12 @@ function getZipName(zipName) {
 }
 
 function rebuildZipForBrowser(zipName, version) {
-  const zip = new AdmZip(getZipName(zipName));
+  zipName = getZipName(zipName);
+  if (fs.existsSync(zipName)) {
+    fs.unlinkSync(zipName);
+  }
+    
+  const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
@@ -82,7 +88,12 @@ function rebuildZipForBrowser(zipName, version) {
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
-  const zip = new AdmZip(getZipName(zipName));
+  zipName = getZipName(zipName);
+  if (fs.existsSync(zipName)) {
+    fs.unlinkSync(zipName);
+  }
+
+  const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, 'dist/manifest.json'));
 
   zip.addFile(
