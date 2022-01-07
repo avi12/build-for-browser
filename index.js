@@ -91,6 +91,10 @@ function rebuildZipForBrowser(zipName, version) {
 function rebuildZipSourceForBrowser(zipName, version) {
   zipName = getZipName(zipName);
 
+  if (!fs.existsSync(zipName)) {
+    return;
+  }
+
   const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, 'dist/manifest.json'));
 
