@@ -37,7 +37,7 @@ function getModifiedManifest(manifestCurrent) {
       scripts: [
         manifest.background.service_worker || manifest.background.scripts[0],
       ],
-      persistent: false
+      persistent: false,
     };
   }
 
@@ -86,9 +86,12 @@ function rebuildZipForBrowser(zipName, version) {
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
-  zip.writeZip(
-    argv.i.replace('{version}', `${version}__adapted_for_${argv.browser}`)
-  );
+  const zipNameOutput = `${version}__adapted_for_${argv.browser}`;
+  if (fs.existsSync(zipNameOutput)) {
+    fs.unlinkSync(zipNameOutput);
+  }
+
+  zip.writeZip(argv.i.replace('{version}', zipNameOutput));
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
