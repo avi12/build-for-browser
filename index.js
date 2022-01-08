@@ -18,6 +18,22 @@ if (!argv.browser) {
   process.exit();
 }
 
+function getValidCspDirectives(csp) {
+  const contentSecurityPolicy = csp.split(/;\s*/).map((string) => {
+    const [directive, ...values] = string.split(' ');
+    return { [directive]: values };
+  });
+
+  delete contentSecurityPolicy['prefetch-src'];
+  delete contentSecurityPolicy['script-src-elem'];
+  delete contentSecurityPolicy['script-src-attr'];
+  delete contentSecurityPolicy['style-src-attr'];
+  delete contentSecurityPolicy['style-src-elem'];
+  return Object.entries(contentSecurityPolicy)
+    .map(([directive, values]) => `${directive} ${values.join(' ')}`)
+    .join(' ');
+}
+
 function getManifest(zip, entry) {
   return JSON.parse(zip.getEntry(entry).getData());
 }
@@ -36,7 +52,7 @@ function getModifiedManifest(manifestCurrent) {
     manifest.background = {
       scripts: [
         manifest.background.service_worker || manifest.background.scripts[0],
-      ]
+      ],
     };
   }
 
@@ -53,10 +69,10 @@ function getModifiedManifest(manifestCurrent) {
     }
   }
 
-  if (manifest.content_security_policy) {
-    manifest.content_security_policy =
-      manifest.content_security_policy?.extension_pages ??
-      manifest.content_security_policy;
+  if (manifest.contentSecurityPolicy) {
+    manifest.contentSecurityPolicy =
+      manifest.contentSecurityPolicy?.extension_pages ??
+      getValidCspDirectives(manifest.contentSecurityPolicy);
   }
 
   delete manifest.offline_enabled;
