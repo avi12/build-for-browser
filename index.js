@@ -69,10 +69,11 @@ function getModifiedManifest(manifestCurrent) {
     }
   }
 
-  if (manifest.contentSecurityPolicy) {
-    manifest.contentSecurityPolicy =
-    getValidCspDirectives(manifest.contentSecurityPolicy?.extension_pages) ??
-      manifest.contentSecurityPolicy;
+  if (manifest.content_security_policy) {
+    manifest.content_security_policy = getValidCspDirectives(
+      manifest.content_security_policy?.extension_pages ??
+        manifest.content_security_policy
+    );
   }
 
   delete manifest.offline_enabled;
