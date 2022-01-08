@@ -21,7 +21,7 @@ if (!argv.browser) {
 function getValidCspDirectives(csp) {
   const contentSecurityPolicy = csp.split(/;\s*/).reduce((csp, string) => {
     const [directive, ...values] = string.split(' ');
-    csp[directive] = values;
+    csp[directive] = values.join(' ');
     return csp;
   }, {});
 
@@ -31,8 +31,8 @@ function getValidCspDirectives(csp) {
   delete contentSecurityPolicy['style-src-attr'];
   delete contentSecurityPolicy['style-src-elem'];
   return Object.entries(contentSecurityPolicy)
-    .map(([directive, values]) => `${directive} ${values.join(' ')}`)
-    .join(' ');
+    .map(([directive, values]) => `${directive} ${values}`)
+    .join('; ');
 }
 
 function getManifest(zip, entry) {
@@ -58,7 +58,7 @@ function getModifiedManifest(manifestCurrent) {
   }
 
   if (manifest.options_ui) {
-    manifest.options_ui.browser_style = false;
+    manifest.options_ui.browser_style = true;
   }
 
   if (manifest.host_permissions) {
