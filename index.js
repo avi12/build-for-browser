@@ -19,10 +19,11 @@ if (!argv.browser) {
 }
 
 function getValidCspDirectives(csp) {
-  const contentSecurityPolicy = csp.split(/;\s*/).map((string) => {
+  const contentSecurityPolicy = csp.split(/;\s*/).reduce((csp, string) => {
     const [directive, ...values] = string.split(' ');
-    return { [directive]: values };
-  });
+    csp[directive] = values;
+    return csp;
+  }, {});
 
   delete contentSecurityPolicy['prefetch-src'];
   delete contentSecurityPolicy['script-src-elem'];
