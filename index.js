@@ -36,8 +36,7 @@ function getModifiedManifest(manifestCurrent) {
     manifest.background = {
       scripts: [
         manifest.background.service_worker || manifest.background.scripts[0],
-      ],
-      persistent: false,
+      ]
     };
   }
 
