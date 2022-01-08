@@ -37,7 +37,12 @@ function getModifiedManifest(manifestCurrent) {
       scripts: [
         manifest.background.service_worker || manifest.background.scripts[0],
       ],
+      persistent: false
     };
+  }
+
+  if (manifest.options_ui) {
+    manifest.options_ui.browser_style = false;
   }
 
   if (manifest.host_permissions) {
