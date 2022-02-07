@@ -103,7 +103,7 @@ function rebuildZipForBrowser(zipName, version) {
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
-  const zipNameOutput = `${zipName}${version}__adapted_for_${argv.browser}`;
+  const zipNameOutput = zipName;
   if (fs.existsSync(zipNameOutput)) {
     fs.unlinkSync(zipNameOutput);
   }
