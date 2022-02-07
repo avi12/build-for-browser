@@ -103,12 +103,12 @@ function rebuildZipForBrowser(zipName, version) {
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
-  const zipNameOutput = zipName;
-  if (fs.existsSync(zipNameOutput)) {
-    fs.unlinkSync(zipNameOutput);
+  if (fs.existsSync(zipName)) {
+    console.log("Removed", zipName);
+    fs.unlinkSync(zipName);
   }
 
-  zip.writeZip(argv.i.replace('{version}', zipNameOutput));
+  zip.writeZip(argv.i.replace('{version}', zipName));
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
