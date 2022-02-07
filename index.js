@@ -105,6 +105,7 @@ function rebuildZipForBrowser(zipName, version) {
 
   const zipNameOutput = `${version}__adapted_for_${argv.browser}`;
   if (fs.existsSync(zipNameOutput)) {
+    console.log("Removed", zipNameOutput);
     fs.unlinkSync(zipNameOutput);
   }
 
