@@ -108,7 +108,7 @@ function rebuildZipForBrowser(zipName, version) {
     fs.unlinkSync(zipNameOutput);
   }
 
-  // zip.writeZip(zipNameOutput);
+  zip.writeZip(zipNameOutput);
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
