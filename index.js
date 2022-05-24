@@ -106,7 +106,7 @@ function rebuildZipForBrowser(zipName, version) {
   const zipNameOutput = zipName.replace(`${version}.zip`, `${version}__adapted_for_${argv.browser}.zip`);
   fs.unlinkSync(zipNameOutput);
 
-  setTimeout(() => zip.writeZip(zipNameOutput));
+  setTimeout(() => zip.writeZip(zipNameOutput), 1000);
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
