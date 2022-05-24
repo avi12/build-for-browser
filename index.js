@@ -95,15 +95,15 @@ function getZipName(zipName) {
   return zipName;
 }
 
-function rebuildZipForBrowser(zipName, version) {
-  zipName = getZipName(zipName);
+function rebuildZipForBrowser(zipNameRaw, version) {
+  const zipName = getZipName(zipNameRaw);
 
   const zip = new AdmZip(zipName);
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
-  const zipNameOutput = zipName.replace(`${version}.zip`, `${version}__adapted_for_${argv.browser}.zip`);
+  const zipNameOutput = zipNameRaw.replace(`${version}.zip`, `${version}__adapted_for_${argv.browser}.zip`);
   fs.unlinkSync(zipNameOutput);
 
   console.log(zip.getEntry("background.js").getData().toString())
