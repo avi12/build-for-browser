@@ -112,7 +112,7 @@ function rebuildZipSourceForBrowser(zipName, version) {
   zipName = getZipName(zipName);
 
   if (!fs.existsSync(zipName)) {
-    console.warn(`WARNING: Source ZIP doesn't exist; not geranrating ${argv.browser}'s source ZIP`)
+    console.warn(`WARNING: Source ZIP doesn't exist; not generating ${argv.browser}'s source ZIP`)
     return;
   }
 
