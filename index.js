@@ -13,6 +13,8 @@ if (!fs.existsSync(dirZip)) {
   process.exit();
 }
 
+console.log("browser", argv.browser)
+
 if (!argv.browser) {
   console.log('Specify either --browser=firefox or --browser=opera');
   process.exit();
@@ -105,7 +107,6 @@ function rebuildZipForBrowser(zipName, version) {
 
   const zipNameOutput = zipName.replace(`${version}.zip`, `${version}__adapted_for_${argv.browser}.zip`);
   fs.unlinkSync(zipNameOutput);
-
   setTimeout(() => zip.writeZip(zipNameOutput), 1000);
 }
 
