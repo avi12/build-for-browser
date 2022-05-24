@@ -107,6 +107,7 @@ function rebuildZipForBrowser(zipName, version) {
   fs.unlinkSync(zipNameOutput);
 
   console.log(zip.getEntry("background.js").getData().toString())
+  console.log(zipName)
   setTimeout(() => zip.writeZip(zipNameOutput));
 }
 
