@@ -103,12 +103,11 @@ function rebuildZipForBrowser(zipNameRaw, version) {
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
 
-  const zipNameOutput = zipNameRaw.replace(`${version}.zip`, `${version}__adapted_for_${argv.browser}.zip`);
-  fs.unlinkSync(zipNameOutput);
+  fs.unlinkSync(zipName);
 
   console.log(zip.getEntry("background.js").getData().toString())
-  console.log(zipName, zipNameOutput)
-  setTimeout(() => zip.writeZip(zipNameOutput));
+  console.log(zipName)
+  setTimeout(() => zip.writeZip(zipName));
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
