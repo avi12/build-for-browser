@@ -88,6 +88,7 @@ function getZipName(zipName) {
     '.zip',
     `__adapted_for_${argv.browser}.zip`
   );
+  console.log(zipNameAdopted);
   if (fs.existsSync(zipNameAdapted)) {
     return zipNameAdapted;
   }
@@ -99,7 +100,6 @@ function rebuildZipForBrowser(zipNameRaw, version) {
   const zipName = getZipName(zipNameRaw);
   const zip = new AdmZip(zipNameRaw);
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
-  console.log(zipName, manifest);
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
   fs.unlinkSync(zipName);
