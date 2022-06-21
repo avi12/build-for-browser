@@ -97,7 +97,9 @@ function rebuildZipForBrowser(zipNameRaw, version) {
   const manifest = getModifiedManifest(getManifest(zip, 'manifest.json'));
 
   zip.addFile('manifest.json', Buffer.from(JSON.stringify(manifest), 'utf-8'));
-  fs.unlinkSync(zipName);
+  if (fs.existsSync(zipName)) {
+    fs.unlinkSync(zipName);
+  }
   zip.writeZip(zipName);
 }
 
@@ -105,7 +107,9 @@ function rebuildZipSourceForBrowser(zipName, version) {
   zipName = getZipName(zipName);
 
   if (!fs.existsSync(zipName)) {
-    console.warn(`WARNING: Source ZIP doesn't exist; not generating ${argv.browser}'s source ZIP`)
+    console.warn(
+      `WARNING: Source ZIP doesn't exist; not generating ${argv.browser}'s source ZIP`
+    );
     return;
   }
 
