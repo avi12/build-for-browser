@@ -88,7 +88,7 @@ function getZipName(zipName) {
     '.zip',
     `__adapted_for_${argv.browser}.zip`
   );
-  console.log(zipNameAdopted);
+  console.log(zipNameAdapted);
   if (fs.existsSync(zipNameAdapted)) {
     return zipNameAdapted;
   }
