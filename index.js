@@ -104,9 +104,6 @@ function rebuildZipForBrowser(zipNameRaw, version) {
 }
 
 function rebuildZipSourceForBrowser(zipName, version) {
-  console.log(zipName)
-  zipName = getZipName(zipName);
-
   if (!fs.existsSync(zipName)) {
     console.warn(
       `WARNING: ${zipName} doesn't exist; not generating ${argv.browser}'s source ZIP`
