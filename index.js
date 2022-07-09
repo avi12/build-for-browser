@@ -14,7 +14,7 @@ if (!fs.existsSync(dirZip)) {
 }
 
 if (!argv.browser) {
-  console.log('Specify either --browser=firefox or --browser=opera');
+  console.log('Specify either --browser=firefox');
   process.exit();
 }
 
