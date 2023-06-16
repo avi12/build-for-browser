@@ -7,14 +7,9 @@ const yargs = require('yargs');
 
 const { argv } = yargs(process.argv.slice(2));
 
-const dirZip = 'dist_packed';
+const dirZip = argv.o;
 if (!fs.existsSync(dirZip)) {
-  console.log(`No "${dirZip}" directory`);
-  process.exit();
-}
-
-if (!argv.browser) {
-  console.log('Specify --browser=firefox');
+  console.error(`No "${dirZip}" directory`);
   process.exit();
 }
 
@@ -66,10 +61,7 @@ function getModifiedManifest(manifestCurrent) {
 }
 
 function getZipName(zipName) {
-  const zipNameAdapted = zipName.replace(
-    '.zip',
-    `__adapted_for_${argv.browser}.zip`
-  );
+  const zipNameAdapted = zipName.replace('.zip', `__adapted_for_firefox.zip`);
   return zipNameAdapted;
 }
 
@@ -88,7 +80,7 @@ function rebuildZipForBrowser(zipNameRaw, version) {
 function rebuildZipSourceForBrowser(zipName, version) {
   if (!fs.existsSync(zipName)) {
     console.warn(
-      `WARNING: ${zipName} doesn't exist; not generating ${argv.browser}'s source ZIP`
+      `WARNING: ${zipName} doesn't exist; not generating Firefox's source ZIP`
     );
     return;
   }
@@ -102,10 +94,7 @@ function rebuildZipSourceForBrowser(zipName, version) {
   );
 
   zip.writeZip(
-    argv.i.replace(
-      '{version}',
-      `${version}__adapted_for_${argv.browser}-source`
-    )
+    argv.i.replace('{version}', `${version}__adapted_for_firefox-source`)
   );
 }
 
