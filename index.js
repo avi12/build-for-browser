@@ -14,7 +14,7 @@ if (!fs.existsSync(dirZip)) {
 }
 
 if (!argv.browser) {
-  console.log('Specify either --browser=firefox');
+  console.log('Specify --browser=firefox');
   process.exit();
 }
 
@@ -41,14 +41,7 @@ function getManifest(zip, entry) {
 
 function getModifiedManifest(manifestCurrent) {
   const manifest = { ...manifestCurrent };
-  manifest.manifest_version = 2;
-  if (manifest.action) {
-    manifest.browser_action = {
-      ...manifest.action,
-      ...manifest.browser_action,
-    };
-  }
-
+  manifest.manifest_version = 3;
   if (manifest.background) {
     manifest.background = {
       scripts: [
@@ -61,15 +54,6 @@ function getModifiedManifest(manifestCurrent) {
     manifest.options_ui.browser_style = true;
   }
 
-  if (manifest.host_permissions) {
-    const host_permissions = [...manifest.host_permissions];
-    if (!manifest.permissions) {
-      manifest.permissions = host_permissions;
-    } else {
-      manifest.permissions.push(...host_permissions);
-    }
-  }
-
   if (manifest.content_security_policy) {
     manifest.content_security_policy = getValidCspDirectives(
       manifest.content_security_policy?.extension_pages ??
@@ -78,8 +62,6 @@ function getModifiedManifest(manifestCurrent) {
   }
 
   delete manifest.offline_enabled;
-  delete manifest.action;
-  delete manifest.host_permissions;
   return manifest;
 }
 
